@@ -228,7 +228,70 @@ Joystick_::Joystick_(
 		tempHidReportDescriptor[hidReportDescriptorSize++] = 0x81;
 		tempHidReportDescriptor[hidReportDescriptorSize++] = 0x02;
 		
-		if (_hatSwitchCount > 1) {
+		Serial.print("Hat Switch 1: ");
+		Serial.println(hidReportDescriptorSize);
+
+		if (_hatSwitchCount < 2) {
+			
+			// Use Padding Bits
+		
+			// REPORT_SIZE (1)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x75;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x01;
+
+			// REPORT_COUNT (4)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x95;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x04;
+					
+			// INPUT (Const,Var,Abs)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x81;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x03;
+		
+		} else {
+		
+			// USAGE (Hat Switch)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x09;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x39;
+
+			// LOGICAL_MINIMUM (0)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x15;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x00;
+
+			// LOGICAL_MAXIMUM (7)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x25;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x07;
+
+			// PHYSICAL_MINIMUM (0)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x35;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x00;
+
+			// PHYSICAL_MAXIMUM (315)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x46;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x3B;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x01;
+
+			// UNIT (Eng Rot:Angular Pos)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x65;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x14;
+
+			// REPORT_SIZE (4)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x75;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x04;
+
+			// REPORT_COUNT (1)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x95;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x01;
+							
+			// INPUT (Data,Var,Abs)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x81;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x02;
+			
+		} // One or Two Hat Switches?
+
+		Serial.print("Hat Switch 2: ");
+		Serial.println(hidReportDescriptorSize);
+
+		if (_hatSwitchCount >= 3) {
 			
 			// USAGE (Hat Switch)
 			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x09;
@@ -266,9 +329,14 @@ Joystick_::Joystick_(
 			// INPUT (Data,Var,Abs)
 			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x81;
 			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x02;
-		
-		} else {
-		
+
+			Serial.print("Hat Switch 3: ");
+			Serial.println(hidReportDescriptorSize);
+
+		}
+
+		if (_hatSwitchCount == 3) {
+
 			// Use Padding Bits
 		
 			// REPORT_SIZE (1)
@@ -282,8 +350,50 @@ Joystick_::Joystick_(
 			// INPUT (Const,Var,Abs)
 			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x81;
 			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x03;
+		
+		} else if (_hatSwitchCount == 4) {
+		
+			// USAGE (Hat Switch)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x09;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x39;
+
+			// LOGICAL_MINIMUM (0)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x15;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x00;
+
+			// LOGICAL_MAXIMUM (7)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x25;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x07;
+
+			// PHYSICAL_MINIMUM (0)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x35;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x00;
+
+			// PHYSICAL_MAXIMUM (315)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x46;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x3B;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x01;
+
+			// UNIT (Eng Rot:Angular Pos)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x65;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x14;
+
+			// REPORT_SIZE (4)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x75;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x04;
+
+			// REPORT_COUNT (1)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x95;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x01;
+							
+			// INPUT (Data,Var,Abs)
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x81;
+			tempHidReportDescriptor[hidReportDescriptorSize++] = 0x02;
 			
-		} // One or Two Hat Switches?
+			Serial.print("Hat Switch 4: ");
+			Serial.println(hidReportDescriptorSize);
+
+		} // Three or Four Hat Switches?
 
 	} // Hat Switches
 
@@ -430,6 +540,10 @@ Joystick_::Joystick_(
     // END_COLLECTION
     tempHidReportDescriptor[hidReportDescriptorSize++] = 0xc0;
 
+	// TODO: Remove
+	Serial.print("hidReportDescriptorSize: ");
+	Serial.println(hidReportDescriptorSize);
+
 	// Create a copy of the HID Report Descriptor template that is just the right size
 	uint8_t *customHidReportDescriptor = new uint8_t[hidReportDescriptorSize];
 	memcpy(customHidReportDescriptor, tempHidReportDescriptor, hidReportDescriptorSize);
@@ -450,9 +564,14 @@ Joystick_::Joystick_(
 	// Calculate HID Report Size
 	_hidReportSize = _buttonValuesArraySize;
 	_hidReportSize += (_hatSwitchCount > 0);
+	_hidReportSize += (_hatSwitchCount > 2);
 	_hidReportSize += (axisCount * 2);
 	_hidReportSize += (simulationCount * 2);
-	
+
+	// TODO: Remove
+	Serial.print("_hidReportSize: ");
+	Serial.println(_hidReportSize);
+
 	// Initalize Joystick State
 	_xAxis = 0;
 	_yAxis = 0;
@@ -654,8 +773,12 @@ void Joystick_::sendState()
 			}			
 		}
 
-		// Pack hat-switch states into a single byte
+		// Pack hat-switch 0 and 1 states into a single byte
 		data[index++] = (convertedHatSwitch[1] << 4) | (B00001111 & convertedHatSwitch[0]);
+
+		if (_hatSwitchCount > 2) {
+			data[index++] = (convertedHatSwitch[3] << 4) | (B00001111 & convertedHatSwitch[2]);
+		}
 	
 	} // Hat Switches
 
